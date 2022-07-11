@@ -1,7 +1,16 @@
-exports.sayHi = (req, res) => {
-  res.json({ message: "Hello there" });
-};
+const User = require("../models/user");
 
-// export const sayHi = (req, res) => {
-//   res.json({ message: "Hello there" });
-// };
+exports.signup = (req, res) => {
+  console.log(req.body);
+  const User = new User(req.body);
+  user.save((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error,
+      });
+    }
+    res.json({
+      user,
+    });
+  });
+};
