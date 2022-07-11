@@ -51,7 +51,7 @@ userSchema
     return this._password;
   });
 
-userSchema.method = {
+userSchema.methods = {
   encryptPassword: function (password) {
     if (!password) return "";
     try {
@@ -60,6 +60,7 @@ userSchema.method = {
         .update(password)
         .digest("hex");
     } catch (err) {
+      console.log(err);
       return "";
     }
   },
