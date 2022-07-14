@@ -29,7 +29,7 @@ router.put(
   update
 );
 
-router.get("/product", list);
+router.get("/products", list);
 
 router.param("userId", userById);
 router.param("productId", productById);
