@@ -12,30 +12,49 @@ const Signup = () => {
     success: false,
   });
 
-  // const { name, email, password, success, error } = values;
+  const { name, email, password, success, error } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  // const clickSubmit = (event) => {
-  //   event.preventDefault();
-  //   setValues({ ...values, error: false });
-  //   signup({ name, email, password }).then((data) => {
-  //     if (data.error) {
-  //       setValues({ ...values, error: data.error, success: false });
-  //     } else {
-  //       setValues({
-  //         ...values,
-  //         name: "",
-  //         email: "",
-  //         password: "",
-  //         error: "",
-  //         success: true,
-  //       });
-  //     }
-  //   });
-  // };
+  const signup = (user) => {
+    // console.log(user);
+    fetch(`${API}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    signup({ name, email, password });
+    // setValues({ ...values, error: false });
+    // signup({ name, email, password }).then((data) => {
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error, success: false });
+    //   } else {
+    //     setValues({
+    //       ...values,
+    //       name: "",
+    //       email: "",
+    //       password: "",
+    //       error: "",
+    //       success: true,
+    //     });
+    //   }
+    // });
+  };
 
   const signUpForm = () => (
     <form>
@@ -68,7 +87,9 @@ const Signup = () => {
           // value={password}
         />
       </div>
-      <button className="btn btn-primary">Submit</button>
+      <button onClick={clickSubmit} className="btn btn-primary">
+        Submit
+      </button>
     </form>
   );
 
