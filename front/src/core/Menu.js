@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
-    // console.log(history.location);
+    console.log(history.location);
     return { color: "#ff9900" };
   } else {
     // console.log(history.location);
