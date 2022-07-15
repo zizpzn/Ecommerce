@@ -4,7 +4,7 @@ import { signout, isAuthenticated } from "../auth";
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
-    console.log(history.location);
+    // console.log(history.location);
     return { color: "#ff9900" };
   } else {
     // console.log(history.location);
@@ -24,8 +24,8 @@ const Menu = ({ history }) => (
       <li className="nav-item">
         <Link
           className="nav-link"
-          style={isActive(history, "/dashboard")}
-          to="/dashboard"
+          style={isActive(history, "/user/dashboard")}
+          to="/user/dashboard"
         >
           Dashboard
         </Link>
