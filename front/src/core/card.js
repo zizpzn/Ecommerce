@@ -14,7 +14,7 @@ const Card = ({ product }) => {
           </p>
           <p className="card-p black-10">$ {product.price}</p>
           <Link to="/">
-            <button className="btn btn-outline-primary mt-2 mb-2">
+            <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
               View Product
             </button>
           </Link>
