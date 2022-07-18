@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
-import { createProduct } from "./apiAdmin";
+import { createProduct, getCategories } from "./apiAdmin";
 
 const AddProduct = () => {
   const [values, setValues] = useState({
@@ -38,8 +38,23 @@ const AddProduct = () => {
     formData,
   } = values;
 
+  // load categories and set form data
+  const init = () => {
+    getCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          categories: data,
+          formData: new FormData(),
+        });
+      }
+    });
+  };
+
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -118,8 +133,8 @@ const AddProduct = () => {
         <select onChange={handleChange("category")} className="form-control">
           <option>Please select</option>
           {categories &&
-            categories.map((category, i) => (
-              <option key={i} value={category._id}>
+            categories.map((category, index) => (
+              <option key={index} value={category._id}>
                 {category.name}
               </option>
             ))}
@@ -149,13 +164,39 @@ const AddProduct = () => {
     </form>
   );
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      {`${createdProduct}`} is created!
+    </div>
+  );
+
+  const showLoading = () =>
+    loading && <div className="alert alert-success">Loading...</div>;
+
   return (
     <Layout
       title="Add a new product"
       description={`Good day ${user.name}, ready to add a new product?`}
     >
       <div className="row">
-        <div className="col-md-8 offset-md-2">{newPostForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {showLoading()}
+          {showError()}
+          {showSuccess()}
+          {newPostForm()}
+        </div>
       </div>
     </Layout>
   );
