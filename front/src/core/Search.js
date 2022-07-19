@@ -27,9 +27,24 @@ const Search = () => {
     loadCategories();
   }, []);
 
+  const searchData = () => {
+    // console.log(search, category);
+    if (search) {
+      list({ search: search || undefined, category: category }).then(
+        (response) => {
+          if (response.error) {
+            console.log(response.error);
+          } else {
+            setData({ ...data, results: response, searched: true });
+          }
+        }
+      );
+    }
+  };
+
   const searchSubmit = (event) => {
     event.preventDefault();
-    // searchData();
+    searchData();
   };
 
   const handleChange = (name) => (event) => {
@@ -69,7 +84,7 @@ const Search = () => {
   return (
     <div className="row">
       <div className="container mb-3">{searchForm()}</div>
-      <div className="container-fluid mb-3">...</div>
+      <div className="container-fluid mb-3">{JSON.stringify(results)}</div>
     </div>
   );
 };
