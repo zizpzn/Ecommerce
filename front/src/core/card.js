@@ -13,7 +13,7 @@ const Card = ({ product }) => {
             {product.description.substring(0, 100)}{" "}
           </p>
           <p className="card-p black-10">$ {product.price}</p>
-          <Link to="/">
+          <Link to={`/product/${product._id}`}>
             <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
               View Product
             </button>
