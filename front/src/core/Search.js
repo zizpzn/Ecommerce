@@ -51,6 +51,25 @@ const Search = () => {
     setData({ ...data, [name]: event.target.value, searched: false });
   };
 
+  // const searchMessage = (searched, results) => {
+  //   if (searched && results.length > 0) {
+  //     return `Found ${results.length} products`;
+  //   }
+  //   if (searched && results.length < 1) {
+  //     return `No products found`;
+  //   }
+  // };
+
+  const searchedProducts = (results = []) => {
+    return (
+      <div className="row">
+        {results.map((product, index) => (
+          <Card key={index} product={product} />
+        ))}
+      </div>
+    );
+  };
+
   const searchForm = () => (
     <form onSubmit={searchSubmit}>
       <span className="input-group-text">
@@ -84,7 +103,7 @@ const Search = () => {
   return (
     <div className="row">
       <div className="container mb-3">{searchForm()}</div>
-      <div className="container-fluid mb-3">{JSON.stringify(results)}</div>
+      <div className="container-fluid mb-3">{searchedProducts(results)}</div>
     </div>
   );
 };
