@@ -9,7 +9,7 @@ import AdminRoute from "./auth/AdminRoute";
 import AdminDashboard from "./user/AdminDashboard";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
-import Shop from "./core/shop";
+import Shop from "./core/Shop";
 
 const Routes = () => {
   return (
