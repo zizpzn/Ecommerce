@@ -21,7 +21,7 @@ const Cart = () => {
           <Card
             key={index}
             product={product}
-            // showAddToCartButton={false}
+            showAddToCartButton={false}
             // cartUpdate={true}
             // showRemoveProductButton={true}
             // setRun={setRun}
