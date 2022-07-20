@@ -39,8 +39,11 @@ const Product = (props) => {
       }
       className="container-fluid"
     >
-      <h2 className="mb-4">Single Product</h2>
-      <div className="row">{JSON.stringify(product)}</div>
+      <div className="row">
+        {product && product.description && (
+          <Card product={product} showViewProductButton={false} />
+        )}
+      </div>
     </Layout>
   );
 };
