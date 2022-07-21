@@ -51,6 +51,32 @@ const Checkout = ({ products }) => {
     );
   };
 
+  const buy = () => {
+    // setData({ loading: true });
+
+    // send the nonce to your server
+    // nonce = data.instance.requestPaymentMethod()
+    let nonce;
+    let getNonce = data.instance
+      .requestPaymentMethod()
+      .then((data) => {
+        console.log(data);
+        nonce = data.nonce;
+
+        // once you have nonce (card type, card number) send nonce as 'paymentMethodNonce'
+        // and also total to be charged
+        console.log(
+          "Send nonce and total to process: ",
+          nonce,
+          getTotal(products)
+        );
+      })
+      .catch((error) => {
+        console.log("Dropin error: ", error);
+        setData({ ...data, error: error.message });
+      });
+  };
+
   const showDropIn = () => (
     <div>
       {data.clientToken !== null && products.length > 0 ? (
@@ -61,16 +87,39 @@ const Checkout = ({ products }) => {
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
-          <button className="btn btn-success">Checkout</button>
+          <button onClick={buy} className="btn btn-success">
+            Pay
+          </button>
         </div>
       ) : null}
     </div>
   );
 
+  const showError = (error) => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showSuccess = (success) => (
+    <div
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
+    >
+      Thanks! Your payment was successful!
+    </div>
+  );
+
+  const showLoading = (loading) =>
+    loading && <h2 className="text-danger">Loading...</h2>;
+
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
-
+      {showError(data.error)}
       {showCheckout()}
     </div>
   );
