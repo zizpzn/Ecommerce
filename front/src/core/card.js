@@ -88,7 +88,7 @@ const Card = ({
 
   const showRemoveButton = (showRemoveProductButton) => {
     return (
-      showRemoveButton && (
+      showRemoveProductButton && (
         <button
           onClick={() => {
             removeItem(product._id);
@@ -116,7 +116,7 @@ const Card = ({
         {showStock(product.quantity)}
         <br />
         {showViewButton(showViewProductButton)}
-        {showAddToCartBtn()}
+        {showAddToCartBtn(showAddToCartButton)}
         {showRemoveButton(showRemoveProductButton)}
         {showCartUpdateOptions(cartUpdate)}
       </div>
