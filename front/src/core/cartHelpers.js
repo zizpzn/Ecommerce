@@ -28,7 +28,7 @@
 //   }
 // };
 
-export const addItem = (item, next) => {
+export const addItem = (item = [], count = 0, next = (f) => f) => {
   let cart = [];
 
   if (typeof window !== "undefined") {

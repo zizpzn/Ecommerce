@@ -12,7 +12,7 @@ import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 
-const Checkout = ({ products }) => {
+const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
     loading: false,
     success: false,
@@ -75,11 +75,11 @@ const Checkout = ({ products }) => {
 
         // once you have nonce (card type, card number) send nonce as 'paymentMethodNonce'
         // and also total to be charged
-        console.log(
-          "Send nonce and total to process: ",
-          nonce,
-          getTotal(products)
-        );
+        // console.log(
+        //   "Send nonce and total to process: ",
+        //   nonce,
+        //   getTotal(products)
+        // );
 
         const paymentData = {
           paymentMethodNonce: nonce,
@@ -95,16 +95,21 @@ const Checkout = ({ products }) => {
               address: data.address,
             };
 
-            createOrder(userId, token, createOrderData);
-
-            setData({ ...data, success: response.success });
-
-            // empty cart
-            // create order
-            emptyCart(() => {
-              console.log("Payment succes and empty cart");
-              setData({ loading: false });
-            });
+            createOrder(userId, token, createOrderData)
+              .then((response) => {
+                emptyCart(() => {
+                  setRun(!run); // run useEffect in parent Cart
+                  console.log("payment success and empty cart");
+                  setData({
+                    loading: false,
+                    success: true,
+                  });
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+                setData({ loading: false });
+              });
           })
           .catch((error) => {
             console.log(error);
