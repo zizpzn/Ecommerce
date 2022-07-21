@@ -57,7 +57,7 @@ const Checkout = ({ products }) => {
   };
 
   const buy = () => {
-    // setData({ loading: true });
+    setData({ loading: true });
 
     // send the nonce to your server
     // nonce = data.instance.requestPaymentMethod()
@@ -90,10 +90,12 @@ const Checkout = ({ products }) => {
             // create order
             emptyCart(() => {
               console.log("Payment succes and empty cart");
+              setData({ loading: false });
             });
           })
           .catch((error) => {
             console.log(error);
+            setData({ loading: false });
           });
       })
       .catch((error) => {
@@ -109,6 +111,9 @@ const Checkout = ({ products }) => {
           <DropIn
             options={{
               authorization: data.clientToken,
+              paypal: {
+                flow: "vault",
+              },
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
@@ -144,6 +149,7 @@ const Checkout = ({ products }) => {
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
+      {showLoading(data.loading)}
       {showSuccess(data.success)}
       {showError(data.error)}
       {showCheckout()}
