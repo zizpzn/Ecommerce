@@ -4,6 +4,7 @@ import {
   getProducts,
   getBraintreeClientToken,
   processPayment,
+  createOrder,
 } from "./apiCore";
 import { emptyCart } from "./cartHelpers";
 import Card from "./Card";
@@ -39,6 +40,10 @@ const Checkout = ({ products }) => {
   useEffect(() => {
     getToken(userId, token);
   }, []);
+
+  const handleAddress = (event) => {
+    setData({ ...data, address: event.target.value });
+  };
 
   const getTotal = () => {
     return products.reduce((currentValue, nextValue) => {
@@ -83,7 +88,15 @@ const Checkout = ({ products }) => {
 
         processPayment(userId, token, paymentData)
           .then((response) => {
-            // console.log(response);
+            const createOrderData = {
+              products: products,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount,
+              address: data.address,
+            };
+
+            createOrder(userId, token, createOrderData);
+
             setData({ ...data, success: response.success });
 
             // empty cart
@@ -108,6 +121,16 @@ const Checkout = ({ products }) => {
     <div>
       {data.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className="form-group mb-3">
+            <label className="text-muted">Delivery address:</label>
+            <textarea
+              onChange={handleAddress}
+              className="form-control"
+              value={data.address}
+              placeholder="Type your delivery address here..."
+            />
+          </div>
+
           <DropIn
             options={{
               authorization: data.clientToken,
