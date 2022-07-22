@@ -5,7 +5,7 @@ const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
 const { userById, addOrderToUserHistory } = require("../controllers/user");
 const {
   create,
-  // listOrders,
+  listOrders,
   // getStatusValues,
   // orderById,
   // updateOrderStatus
@@ -20,6 +20,8 @@ router.post(
   decreaseQuantity,
   create
 );
+
+router.get("/order/list/:userId", requireSignin, isAuth, isAdmin, listOrders);
 
 router.param("userId", userById);
 
